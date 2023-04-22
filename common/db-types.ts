@@ -4,6 +4,7 @@ type Id = {
 
 export type Brand = {
   readonly name: string;
+  readonly avatar: string | null;
   readonly address: string | null;
   readonly phone: string | null;
   readonly website: string | null;
@@ -48,6 +49,7 @@ export type CampaignWithId = Campaign & Id;
 
 export type User = {
   readonly name: string;
+  readonly avatar: string | null;
   readonly address: string | null;
   readonly phone: string | null;
   readonly website: string | null;
