@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, Button, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, Button, TouchableOpacity, Linking } from "react-native";
 import {BrandWithId} from "../../../common/db-types"
 import {dummyBrands, sophiaReview} from "../dummy/brands"
 import { ScrollView } from "react-native-gesture-handler";
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Entypo, FontAwesome5 } from '@expo/vector-icons';
 import { averageRatings } from "../utils/averageRatings";
 import CustomIcon from '../utils/customIcons'
 
@@ -37,7 +37,7 @@ const BrandScreen = ({ navigation, route }) => {
       </Text>
 
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <FontAwesome name="star" size={32} style={{color: '#FFC900'}}/>
+        <FontAwesome name="star" size={25} style={{color: '#FFC900'}}/>
         <Text style={styles.averageRatingText}>
           {averageRatings(reviews)}/5 ({reviews.length} ratings)
         </Text>
@@ -75,10 +75,68 @@ const BrandScreen = ({ navigation, route }) => {
     </View>
   )
 
+  const openUrl = (url: string) => {
+    Linking.openURL(url).catch((err) => {
+      console.error('Failed to open link:', err);
+    });
+  };
+
+  const brandInfo = (
+    <View style={{marginTop: 10}}>
+      {brand.address && 
+        <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5}}> 
+          <CustomIcon name='location' size={25} style={styles.infoIcon} />
+          <Text style={styles.infoText}>{brand.address}</Text>
+        </View>
+      }
+      {brand.phone && 
+        <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5}}> 
+          <CustomIcon name='phone' size={25} style={styles.infoIcon} />
+          <Text style={styles.infoText}>{brand.phone}</Text>
+        </View>
+      }
+      {brand.email && 
+        <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5, marginLeft: -3.5}}> 
+          <CustomIcon name='email' size={20} style={styles.infoIcon} />
+          <Text style={styles.infoText}>{brand.email}</Text>
+        </View>
+      }
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, marginLeft: 2}}>
+        {brand.website && 
+          <TouchableOpacity onPress={() => openUrl(brand.website)}>
+            <CustomIcon name="website" size={25} style={{color: 'black', marginRight: 10}}/>
+          </TouchableOpacity>  
+        }
+        {brand.facebook && 
+          <TouchableOpacity onPress={() => openUrl(brand.facebook)}>
+            <Entypo name="facebook" size={25} style={{color: 'black', marginRight: 10}}/>
+          </TouchableOpacity>  
+        }
+        {brand.instagram && 
+          <TouchableOpacity onPress={() => openUrl(brand.instagram)}>
+            <Entypo name="instagram" size={25} style={{color: 'black', marginRight: 10}}/>
+          </TouchableOpacity>  
+        }
+        {brand.tiktok && 
+          <TouchableOpacity onPress={() => openUrl(brand.tiktok)}>
+            <FontAwesome5 name="tiktok" size={22} style={{color: 'black', marginRight: 10}}/>
+          </TouchableOpacity>  
+        }
+        {brand.youtube && 
+          <TouchableOpacity onPress={() => openUrl(brand.youtube)}>
+            <Entypo name="youtube" size={25} style={{color: 'black', marginRight: 10}}/>
+          </TouchableOpacity>  
+        }
+      </View>
+    </View>
+  )
+
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       {brandHeader}
-    </ScrollView>
+      {brandInfo}
+    </View>
   )
   
 };
@@ -87,6 +145,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    padding: 15
   },
   headerContainer: {
     alignItems: 'center', 
@@ -96,7 +155,6 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 100, 
     overflow: 'hidden', 
-    marginTop: '5%',
     marginBottom: '2%',
   },
   image: {
@@ -107,14 +165,14 @@ const styles = StyleSheet.create({
     fontFamily: 'rimouski',
     fontStyle: 'normal',
     fontWeight: '600',
-    fontSize: 26,
+    fontSize: 22,
   },
   averageRatingText: {
     marginLeft: 5,
     fontFamily: 'karla',
     fontStyle: 'normal',
     fontWeight: '500',
-    fontSize: 18,
+    fontSize: 15,
   },
   headerButton: {
     padding: 10,
@@ -126,7 +184,17 @@ const styles = StyleSheet.create({
     fontFamily: 'rimouski',
     fontStyle: 'normal',
     fontWeight: '600',
-    fontSize: 16,
+    fontSize: 14,
+  },
+  infoIcon: {
+    color: 'grey', 
+    marginRight: 10,
+  },
+  infoText: {
+    fontFamily: 'karla',
+    fontStyle: 'normal',
+    fontWeight: '300',
+    fontSize: 15,
   }
 });
 

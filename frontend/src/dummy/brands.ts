@@ -11,8 +11,10 @@ export const dummyBrands: BrandWithId[] = [
     email: "sophia.phamthuy@gmail.com",
     facebook: "https://www.facebook.com/thuypham.sophia/",
     instagram: "https://www.instagram.com/sophiapham_03/",
-    youtube: null,
-    photos: []
+    youtube: "https://www.youtube.com/",
+    tiktok: "https://www.tiktok.com/en/",
+    photos: [],
+    ownerId: "sophia"
   }
 ]
 

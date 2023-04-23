@@ -5,5 +5,5 @@ export const averageRatings = (ratings: ReviewWithId[]) => {
     return acc + rating.overallRating;
   }, 0);
   
-  return (sum ? sum / ratings.length : 0);
+  return (sum ? sum / ratings.length : 0).toFixed(1);
 }
