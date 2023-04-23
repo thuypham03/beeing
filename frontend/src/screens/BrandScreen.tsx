@@ -11,6 +11,7 @@ const BrandScreen = ({ navigation, route }) => {
   // const { brandId } = route.params; 
   const brand = dummyBrands[0];
   const reviews = sophiaReview;
+  const isOwner = true;
   // const [brand, setBrand] = useState<BrandWithId | undefined>(undefined);
 
   // useEffect(() => {
@@ -43,35 +44,36 @@ const BrandScreen = ({ navigation, route }) => {
         </Text>
       </View>
       
-
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginTop: '2%' }}>
-        <TouchableOpacity style={{
-          ...styles.headerButton,
-          backgroundColor: 'black',
-          marginRight: 8,
-        }}>
-          <CustomIcon name='hive' size={25} style={{color: 'yellow', marginRight: 8}} />
-          <Text style={{
-            ...styles.headerButtonText,
-            color: '#FCE330'
+      {isOwner && 
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginTop: '2%' }}>
+          <TouchableOpacity style={{
+            ...styles.headerButton,
+            backgroundColor: 'black',
+            marginRight: 8,
           }}>
-            Manage Hive
-          </Text>
-        </TouchableOpacity>  
+            <CustomIcon name='hive' size={25} style={{color: 'yellow', marginRight: 8}} />
+            <Text style={{
+              ...styles.headerButtonText,
+              color: '#FCE330'
+            }}>
+              Manage Hive
+            </Text>
+          </TouchableOpacity>  
 
-        <TouchableOpacity style={{
-          ...styles.headerButton,
-          backgroundColor: '#FCE330',
-        }}>
-          <FontAwesome name="camera" size={25} style={{color: 'black', marginRight: 8}}/>
-          <Text style={{
-            ...styles.headerButtonText,
-            color: 'black'
+          <TouchableOpacity style={{
+            ...styles.headerButton,
+            backgroundColor: '#FCE330',
           }}>
-            Edit Profile
-          </Text>
-        </TouchableOpacity>  
-      </View>
+            <FontAwesome name="camera" size={25} style={{color: 'black', marginRight: 8}}/>
+            <Text style={{
+              ...styles.headerButtonText,
+              color: 'black'
+            }}>
+              Edit Profile
+            </Text>
+          </TouchableOpacity>  
+        </View> 
+      }
     </View>
   )
 
