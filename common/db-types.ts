@@ -12,7 +12,9 @@ export type Brand = {
   readonly facebook: string | null;
   readonly instagram: string | null;
   readonly youtube: string | null;
+  readonly tiktok: string | null;
   readonly photos: readonly string[]; // can be empty
+  readonly ownerId: string;
 }
 
 export type BrandWithId = Brand & Id;
