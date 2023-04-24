@@ -12,7 +12,6 @@ const PhotoCards = ({photos, addPhoto}: Props) => {
           <Image
             style={styles.image}
             source={{uri: photo}}
-
           />
       ))}
 
