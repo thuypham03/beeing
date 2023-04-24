@@ -13,7 +13,8 @@ export const dummyBrands: BrandWithId[] = [
     instagram: "https://www.instagram.com/sophiapham_03/",
     youtube: "https://www.youtube.com/",
     tiktok: "https://www.tiktok.com/en/",
-    photos: [],
+    photos: [
+    ],
     ownerId: "sophia"
   }
 ]

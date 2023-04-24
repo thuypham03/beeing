@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, Button, TouchableOpacity, Linking } from "react-native";
+import { ScrollView, Text, StyleSheet, Image, Button, TouchableOpacity, Linking } from "react-native";
 import {BrandWithId} from "../../../common/db-types"
 import {dummyBrands, sophiaReview} from "../dummy/brands"
 import BrandInfo from "../components/Brand/BrandInfo";
 import BrandHeader from "../components/Brand/BrandHeader";
+import PhotoCards from "../components/Photo/PhotoCards";
 
 const BrandScreen = ({ navigation, route }) => { 
   // const { brandId } = route.params; 
@@ -11,11 +12,16 @@ const BrandScreen = ({ navigation, route }) => {
   const reviews = sophiaReview;
   // const [brand, setBrand] = useState<BrandWithId | undefined>(undefined);
 
+  const addPhoto = (photo: string) => {
+
+  }
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <BrandHeader brand={brand} reviews={reviews} />
       <BrandInfo brand={brand}/>
-    </View>
+      <PhotoCards photos={brand.photos} addPhoto={addPhoto}/>
+    </ScrollView>
   )
   
 };

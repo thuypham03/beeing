@@ -21,7 +21,7 @@ const BrandHeader = ({brand, reviews}: Props) => {
             style={styles.image}
           />  : 
           <Image
-            source={require('../assets/avatar-placeholder.png')}
+            source={require('../../assets/avatar-placeholder.png')}
             style={styles.image}
           />
         }
