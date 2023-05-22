@@ -15,7 +15,6 @@ export const dummyBrands: BrandWithId[] = [
     tiktok: "https://www.tiktok.com/en/",
     photos: [
     ],
-    ownerId: "sophia"
   }
 ]
 

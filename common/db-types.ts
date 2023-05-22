@@ -2,23 +2,54 @@ type Id = {
   readonly id: string;
 };
 
-export type Brand = {
-  readonly name: string;
+// Login types
+export type User = {
+  readonly isBrand: boolean;
+  readonly brandId: string | null;
+  readonly influencerId: string | null;
+}
+
+export type UserWithId = User & Id;
+
+export type BasicInfo = {
   readonly avatar: string | null;
   readonly address: string | null;
   readonly phone: string | null;
-  readonly website: string | null;
   readonly email: string | null;
+  readonly website: string | null;
+  readonly photos: readonly string[]; // can be empty
+}
+
+export type SocialMedia = {
   readonly facebook: string | null;
   readonly instagram: string | null;
   readonly youtube: string | null;
   readonly tiktok: string | null;
-  readonly photos: readonly string[]; // can be empty
-  readonly ownerId: string;
+  readonly twitch: string | null;
+  readonly twitter: string | null;
 }
 
-export type BrandWithId = Brand & Id;
+export type Brand = {
+  readonly userId: string;
+  readonly name: string;
+  readonly sector: string;
+  readonly description: string | null;
+  readonly channel: 'ONLINE' | 'IN-PERSON' | 'BOTH';
+}
 
+export type BrandWithId = Brand & BasicInfo & SocialMedia & Id;
+
+export type Influencer = {
+  readonly userId: string;
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly yearOfBirth: number;
+  readonly gender: string;
+}
+
+export type InflencerWithId = Influencer & BasicInfo & SocialMedia & Id;
+
+// Rating types
 export type DetailedRating = {
   readonly communication: number;
   readonly value: number;
@@ -27,7 +58,7 @@ export type DetailedRating = {
 
 export type Review = {
   readonly brandId?: string | null;
-  readonly userId?: string | null;
+  readonly influencerId?: string | null;
   readonly likes: number;
   readonly date: Date;
   readonly detailedRatings: DetailedRating;
@@ -39,6 +70,7 @@ export type Review = {
 
 export type ReviewWithId = Review & Id;
 
+// Campaign types
 export type Campaign = {
   readonly brandId: string;
   readonly name: string;
@@ -48,21 +80,6 @@ export type Campaign = {
 }
 
 export type CampaignWithId = Campaign & Id;
-
-export type User = {
-  readonly name: string;
-  readonly avatar: string | null;
-  readonly address: string | null;
-  readonly phone: string | null;
-  readonly website: string | null;
-  readonly email: string | null;
-  readonly facebook: string | null;
-  readonly instagram: string | null;
-  readonly youtube: string | null;
-  readonly photos: readonly string[]; // can be empty
-}
-
-export type UserWithId = User & Id;
 
 export type Request = {
   readonly userId: string;
