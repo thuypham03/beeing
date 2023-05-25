@@ -3,23 +3,25 @@ import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {signIn} from '../../utils/firebase';
 
-const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const SignIn = ({ navigation }) => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   const handlePress = () => {
     if (!email) {
       Alert.alert('Email field is required.');
     }
-
-    if (!password) {
+    else if (!password) {
       Alert.alert('Password field is required.');
     }
-
-    signIn(email, password);
-    setEmail('');
-    setPassword('');
+    else {
+      signIn(email, password);
+      setEmail('');
+      setPassword('');
+    }
   };
+
+  const signUp = () => navigation.navigate('Sign Up');
 
   return (
     <View style={styles.container}>
@@ -52,9 +54,9 @@ const SignIn = () => {
         <Text style={styles.breakerText}>Don’t have an account?</Text>
         <View style={styles.breaker} />
       </View>
-      <TouchableOpacity style={{...styles.button, width: 220}} onPress={() => {}}>
-          <Text style={styles.buttonText}>Create new account</Text>
-        </TouchableOpacity>
+      <TouchableOpacity style={{...styles.button, width: 220}} onPress={signUp}>
+        <Text style={styles.buttonText}>Create new account</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -73,13 +75,15 @@ const styles = StyleSheet.create({
   },
   formInput: {
     marginBottom: 10,
-    width: 350,
-    height: 40,
+    width: 365,
+    height: 45,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderRadius: 20,
+    borderRadius: 40,
     borderColor: 'black',
     textAlign: 'left',  
+    alignSelf: 'center',
+    fontSize: 15,
   },
   button: {
     marginTop: 15,

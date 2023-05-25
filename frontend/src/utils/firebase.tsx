@@ -12,11 +12,13 @@ const auth = firebase.auth();
 const firestore = firebase.firestore();
 const storage = firebase.storage();
 
-const registration = async (email: string, password: string) => {
+const registration = async (email: string, password: string) : Promise<boolean> => {
   try {
     await auth.createUserWithEmailAndPassword(email, password);
+    return true;
   } catch (err) {
     Alert.alert("Unsuccessful registration", err.message);
+    return false;
   }
 }
 
