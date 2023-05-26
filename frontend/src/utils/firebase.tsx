@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import apiKeys from '../../config/keys';
 import {Alert} from "react-native";
+import { v4 as uuid } from 'uuid';
 
 import 'firebase/auth'; // for authentication
 import 'firebase/storage'; // for storage
@@ -12,13 +13,13 @@ const auth = firebase.auth();
 const firestore = firebase.firestore();
 const storage = firebase.storage();
 
-const registration = async (email: string, password: string) : Promise<boolean> => {
+const registration = async (email: string, password: string) : Promise<string | null> => {
   try {
-    await auth.createUserWithEmailAndPassword(email, password);
-    return true;
+    const { user } = await auth.createUserWithEmailAndPassword(email, password)
+    return user.uid;
   } catch (err) {
     Alert.alert("Unsuccessful registration", err.message);
-    return false;
+    return null;
   }
 }
 
@@ -38,4 +39,13 @@ try {
   }
 }
 
-export { registration, signIn, signOut };
+const uploadImage = async (uri: string) => {
+  const storageRef = storage.ref();
+  const response = await fetch(uri);
+  const blob = await response.blob();
+
+  const result = await storageRef.child(uuid()).put(blob);
+  return await result.ref.getDownloadURL();
+};
+
+export { registration, signIn, signOut, uploadImage };

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Alert, Text, ImageBackground} from 'react-native';
+import { View, StyleSheet, Alert, Text, ImageBackground, TouchableOpacity, Image} from 'react-native';
 import { Header, SubHeader, CategoryButton, ContinueButton, FormInput } from '../../components/Auth/SignUpComponents'
-import { registration } from '../../utils/firebase';
+import { registration, uploadImage } from '../../utils/firebase';
+import { pickImage } from '../../utils/selectPhoto';
+import { Entypo } from '@expo/vector-icons';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -12,6 +15,13 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'stretch',
   },
+  image: {
+    width: 250, 
+    height: 250,
+    borderRadius: 250,
+    margin: 10,
+    marginLeft: -1,
+  },
 });
 
 const SignUp = ({ navigation }) => {
@@ -20,11 +30,14 @@ const SignUp = ({ navigation }) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [avatar, setAvatar] = useState<string | null>(null);
+  const [uploadedAvatar, setUploadedAvatar] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
   const nextPage = () => {
-    userType ? (userType === 'Brand' ? navigation.navigate('Brand Sign Up') : navigation.navigate('Influencer Sign Up'))
-     : Alert.alert('User type is required.');
-  };
+    // Create User context 
+    userType === 'Brand' ? navigation.navigate('Brand Sign Up') : navigation.navigate('Influencer Sign Up');
+  }
 
   const chooseUserType = () => {
     const toWelcome = () => {
@@ -45,9 +58,10 @@ const SignUp = ({ navigation }) => {
       if (email === '' || password === '' || confirmPassword === '') Alert.alert('Please fill out the form.')
       else if (password !== confirmPassword) Alert.alert('Password does not match.')
       else {
-        // const isValid = registration(email, password);
-        const isValid = true;
-        if (isValid) setStage('Middle');
+        registration(email, password).then((uid) => {
+          if (uid !== null) { setStage('Middle'); setUserId(uid); }
+        })
+        // setStage('Middle');
       }
     } 
     return(
@@ -69,7 +83,7 @@ const SignUp = ({ navigation }) => {
 
   const middle = () => {
     const subHeader = 
-      userType === 'Brand' ? 'Filling out the details enables you to match with your best fit brands'
+      userType === 'Influencer' ? 'Filling out the details enables you to match with your best fit brands'
       : 'Filling out the details enables you to attract the best fit beefluencers';
 
     const backgroundImageBrand = require('../../assets/background-image-brand.png');
@@ -93,10 +107,56 @@ const SignUp = ({ navigation }) => {
   }
 
   const chooseProfile = () => {
+    const subHeader = 
+      userType === 'Influencer' ? 'Please add a photo that bests represent you' 
+      : 'Please add a photo of brand';
+    
+    const uploadAvatar = () => {
+      if (avatar === null) Alert.alert('Please select profile picture.')
+      else {
+        uploadImage(avatar)
+          .then((res) => {
+            setUploadedAvatar(res);
+            nextPage();
+          })
+          .catch((err) => {
+            console.log("Error in uploading image to storage", err);
+          })
+      }
+    }
+
     return (
       <View style={{marginTop: '20%', alignItems: 'center'}}>
         <Header description='Profile Picture' />
-        <SubHeader description='Please add a photo that bests represent you'/>
+        <SubHeader description={subHeader}/>
+
+        <View style={{flexDirection: 'row'}}>
+          {!avatar ? 
+            <Image
+              source={require('../../assets/avatar-placeholder-setting.png')}
+              style={styles.image}
+            />  : 
+            <Image
+              source={{ uri: avatar }}
+              style={styles.image}
+            />
+          }
+          <TouchableOpacity style={{
+            marginTop: 210,
+            marginLeft: -70,
+            padding: 10,
+            borderRadius: 30,
+            borderWidth: 1,
+            backgroundColor: 'white',
+          }} onPress={() => pickImage(setAvatar)}>
+            <Entypo name="camera" size={40} style={{color: 'black'}}/>
+          </TouchableOpacity>  
+        </View>
+        
+        <ContinueButton onPress={uploadAvatar} />
+        <TouchableOpacity onPress={nextPage}>
+          <Text style={{fontFamily: 'karla', fontSize: 15, marginTop: 10}}>Maybe Later</Text>
+        </TouchableOpacity>
       </View>
     )
   }
