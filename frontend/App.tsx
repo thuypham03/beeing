@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from 'expo-font';
+import axios from 'axios';
 
 import HomeScreen from "./src/screens/HomeScreen";
 import BrandScreen from './src/screens/BrandScreen';
@@ -14,6 +15,8 @@ import InfluencerSignUp from './src/screens/auth/InfluencerSignUp';
 const Stack = createStackNavigator();
 
 const App = () => {
+  axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+  
   const [fontsLoaded] = useFonts({
     'rimouski': require('./src/assets/rimouski.otf'), 
     'karla': require('./src/assets/karla.ttf'), 

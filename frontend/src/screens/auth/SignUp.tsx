@@ -4,7 +4,7 @@ import { Header, SubHeader, CategoryButton, ContinueButton, FormInput } from '..
 import { registration, uploadImage } from '../../utils/firebase';
 import { pickImage } from '../../utils/selectPhoto';
 import { Entypo } from '@expo/vector-icons';
-
+import axios from 'axios';
 
 const styles = StyleSheet.create({
   container: {
@@ -34,8 +34,15 @@ const SignUp = ({ navigation }) => {
   const [uploadedAvatar, setUploadedAvatar] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
 
-  const nextPage = () => {
+  const nextPage = async () => {
     // Create User context 
+    const newUser = {
+      id: userId,
+      type: userType.toUpperCase(),
+      email: email,
+      avatar: uploadedAvatar
+    };
+    await axios.post('/new-user', newUser);
     userType === 'Brand' ? navigation.navigate('Brand Sign Up') : navigation.navigate('Influencer Sign Up');
   }
 
@@ -61,7 +68,6 @@ const SignUp = ({ navigation }) => {
         registration(email, password).then((uid) => {
           if (uid !== null) { setStage('Middle'); setUserId(uid); }
         })
-        // setStage('Middle');
       }
     } 
     return(

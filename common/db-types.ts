@@ -4,50 +4,42 @@ type Id = {
 
 // Login types
 export type User = {
-  readonly isBrand: boolean;
-  readonly brandId: string | null;
-  readonly influencerId: string | null;
+  readonly type: 'BRAND' | 'INFLUENCER';
 }
 
-export type UserWithId = User & Id;
-
 export type BasicInfo = {
-  readonly avatar: string | null;
-  readonly address: string | null;
-  readonly phone: string | null;
-  readonly email: string | null;
-  readonly website: string | null;
-  readonly photos: readonly string[]; // can be empty
+  readonly avatar?: string | null;
+  readonly address?: string | null;
+  readonly phone?: string | null;
+  readonly email?: string | null;
+  readonly website?: string | null;
+  readonly photos?: readonly string[]; // can be empty
 }
 
 export type SocialMedia = {
-  readonly facebook: string | null;
-  readonly instagram: string | null;
-  readonly youtube: string | null;
-  readonly tiktok: string | null;
-  readonly twitch: string | null;
-  readonly twitter: string | null;
+  readonly facebook?: string | null;
+  readonly instagram?: string | null;
+  readonly youtube?: string | null;
+  readonly tiktok?: string | null;
+  readonly twitch?: string | null;
+  readonly twitter?: string | null;
 }
 
 export type Brand = {
-  readonly userId: string;
-  readonly name: string;
-  readonly sector: string;
-  readonly description: string | null;
-  readonly channel: 'ONLINE' | 'IN-PERSON' | 'BOTH';
+  readonly name?: string;
+  readonly sector?: string;
+  readonly description?: string | null;
+  readonly channel?: 'ONLINE' | 'IN-PERSON' | 'BOTH';
 }
-
-export type BrandWithId = Brand & BasicInfo & SocialMedia & Id;
 
 export type Influencer = {
-  readonly userId: string;
-  readonly firstName: string;
-  readonly lastName: string;
-  readonly yearOfBirth: number;
-  readonly gender: string;
+  readonly firstName?: string;
+  readonly lastName?: string;
+  readonly yearOfBirth?: number;
+  readonly gender?: string;
 }
 
-export type InflencerWithId = Influencer & BasicInfo & SocialMedia & Id;
+export type UserWithId = User & Id & BasicInfo & SocialMedia & Brand & Influencer;
 
 // Rating types
 export type DetailedRating = {
