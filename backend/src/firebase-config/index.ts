@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin';
-import apiKeys from '../../../common/keys'
+import apiKeys from './keys'
 
 const hydrateServiceAccount = (): admin.ServiceAccount => {
   const privateKey = apiKeys.firebaseKeys.privateKey?.replace(/\\n/g, '\n');

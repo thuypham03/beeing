@@ -36,6 +36,7 @@ const SignUp = ({ navigation }) => {
 
   const nextPage = async () => {
     // Create User context 
+    console.log("Try adding new user");
     const newUser = {
       id: userId,
       type: userType.toUpperCase(),

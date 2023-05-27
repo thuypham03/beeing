@@ -17,13 +17,13 @@ type ButtonProps = {
   setStateFunc: React.Dispatch<React.SetStateAction<string>>,
 };
 const CategoryButton = ({ values, curState, setStateFunc }: ButtonProps) => {
-  const renderItem = (item: string) => {
+  const renderItem = (index: number, item: string) => {
     const backgroundColor = item === curState ? 'black' : 'white';
     const textColor = item === curState ? '#FCE330' : 'black';
     const textWeight = item === curState ? '700' : '400';
 
     return (
-      <TouchableOpacity onPress={() => setStateFunc(item)} style={[styles.button, {backgroundColor}]}>
+      <TouchableOpacity key={index} onPress={() => setStateFunc(item)} style={[styles.button, {backgroundColor}]}>
         <Text style={[styles.buttonText, {color: textColor, fontWeight: textWeight}]}>{item}</Text>
       </TouchableOpacity>
     );
@@ -31,7 +31,7 @@ const CategoryButton = ({ values, curState, setStateFunc }: ButtonProps) => {
 
   return (
     <SafeAreaView>
-      {values.map((item) => renderItem(item))}
+      {values.map((item, index) => renderItem(index, item))}
     </SafeAreaView>
   );
 };

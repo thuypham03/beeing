@@ -1,5 +1,5 @@
 import firebase from 'firebase/app';
-import apiKeys from '../../../common/keys';
+import apiKeys from '../config/firebase-config'
 import {Alert} from "react-native";
 import { v4 as uuid } from 'uuid';
 
