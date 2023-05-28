@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Alert, Text, ImageBackground, TouchableOpacity, Image} from 'react-native';
 import { Header, SubHeader, CategoryButton, ContinueButton, FormInput } from '../../components/Auth/SignUpComponents'
 import { registration, uploadImage } from '../../utils/firebase';
 import { pickImage } from '../../utils/selectPhoto';
 import { Entypo } from '@expo/vector-icons';
 import api from '../../utils/axios';
-import axios from 'axios';
 
 const styles = StyleSheet.create({
   container: {
@@ -34,18 +33,22 @@ const SignUp = ({ navigation }) => {
   const [avatar, setAvatar] = useState<string | null>(null);
   const [uploadedAvatar, setUploadedAvatar] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
+  const [isFinish, setIsFinish] = useState<boolean>(false);
 
-  const nextPage = async () => {
-    // Create User context 
-    console.log("Try adding new user 2");
-    const newUser = {
-      id: userId,
-      type: userType.toUpperCase(),
-      email: email,
-      avatar: uploadedAvatar
+  useEffect(() => {
+    const createNewUser = async () => {
+      const newUser = {
+        id: userId,
+        type: userType.toUpperCase(),
+        email: email,
+        avatar: uploadedAvatar
+      };
+      await api.post('/new-user', newUser);
     };
-    await api.post('/new-user', newUser);
-    // await axios.post('http://192.168.50.112:8080/new-user', newUser);
+    createNewUser();
+  }, [isFinish, uploadedAvatar]);
+
+  const nextPage = () => {
     userType === 'Brand' ? navigation.navigate('Brand Sign Up') : navigation.navigate('Influencer Sign Up');
   }
 
@@ -123,9 +126,8 @@ const SignUp = ({ navigation }) => {
     const uploadAvatar = () => {
       if (avatar === null) Alert.alert('Please select profile picture.')
       else {
-        uploadImage(avatar)
+        uploadImage(avatar, userId)
           .then((res) => {
-            console.log(res);
             setUploadedAvatar(res);
             nextPage();
           })
@@ -164,7 +166,7 @@ const SignUp = ({ navigation }) => {
         </View>
         
         <ContinueButton onPress={uploadAvatar} />
-        <TouchableOpacity onPress={nextPage}>
+        <TouchableOpacity onPress={() => {setIsFinish(true); nextPage();}}>
           <Text style={{fontFamily: 'karla', fontSize: 15, marginTop: 10}}>Maybe Later</Text>
         </TouchableOpacity>
       </View>

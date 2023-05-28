@@ -1,0 +1,13 @@
+{
+  "name": "beeing",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/thuypham03/beeing.git",
+  "author": "Thuy Pham <tpp38@cornell.edu>",
+  "license": "MIT",
+  "scripts": {
+    "frontend": "cd frontend && yarn start",
+    "backend": "cd backend && yarn start",
+    "start": "run-p frontend backend"
+  }
+}

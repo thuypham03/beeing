@@ -39,12 +39,13 @@ try {
   }
 }
 
-const uploadImage = async (uri: string) => {
+const uploadImage = async (uri: string, id?: string) => {
   const storageRef = storage.ref();
   const response = await fetch(uri);
   const blob = await response.blob();
 
-  const result = await storageRef.child(uuid()).put(blob);
+  if (typeof id === 'undefined') id = uuid();
+  const result = await storageRef.child(id).put(blob);
   return await result.ref.getDownloadURL();
 };
 
