@@ -4,6 +4,7 @@ import { Header, SubHeader, CategoryButton, ContinueButton, FormInput } from '..
 import { registration, uploadImage } from '../../utils/firebase';
 import { pickImage } from '../../utils/selectPhoto';
 import { Entypo } from '@expo/vector-icons';
+import api from '../../utils/axios';
 import axios from 'axios';
 
 const styles = StyleSheet.create({
@@ -36,14 +37,15 @@ const SignUp = ({ navigation }) => {
 
   const nextPage = async () => {
     // Create User context 
-    console.log("Try adding new user");
+    console.log("Try adding new user 2");
     const newUser = {
       id: userId,
       type: userType.toUpperCase(),
       email: email,
       avatar: uploadedAvatar
     };
-    await axios.post('/new-user', newUser);
+    await api.post('/new-user', newUser);
+    // await axios.post('http://192.168.50.112:8080/new-user', newUser);
     userType === 'Brand' ? navigation.navigate('Brand Sign Up') : navigation.navigate('Influencer Sign Up');
   }
 
@@ -123,6 +125,7 @@ const SignUp = ({ navigation }) => {
       else {
         uploadImage(avatar)
           .then((res) => {
+            console.log(res);
             setUploadedAvatar(res);
             nextPage();
           })
