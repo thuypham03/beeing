@@ -75,10 +75,10 @@ const SignUp = ({ navigation }) => {
       if (email === '' || password === '' || confirmPassword === '') Alert.alert('Please fill out the form.')
       else if (password !== confirmPassword) Alert.alert('Password does not match.')
       else {
-        // registration(email, password).then((uid) => {
-        //   if (uid !== null) { setStage('Middle'); setUserId(uid); }
-        // });
-        setStage('Middle'); setUserId("123");
+        registration(email, password).then((uid) => {
+          if (uid !== null) { setStage('Middle'); setUserId(uid); }
+        });
+        // setStage('Middle'); setUserId("123");
       }
     } 
     return(
