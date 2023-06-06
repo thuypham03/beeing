@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, SafeAreaView, FlatList} from 'react-native';
+import { FontAwesome5 } from '@expo/vector-icons'; 
 
 type HeaderProps = {
   description: string
@@ -67,7 +68,28 @@ const FormInput = ({ name, state, setState, secure }: FormInputProps) => (
     onChangeText={(state) => setState(state)}
     autoCapitalize="none"
     secureTextEntry={secure}
+    
   />
+)
+
+type SocialInputProps = {
+  type: string,
+  state: string,
+  setState: React.Dispatch<React.SetStateAction<string>>,
+};
+const SocialInput = ({ type, state, setState } : SocialInputProps) => (
+  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+    <FontAwesome5 size={40} name={type} style={{ margin: 10}}/>
+    <TextInput
+      style={{...styles.formInput, width: '75%' }}
+      placeholder={'Enter your ' + type.charAt(0).toUpperCase() + type.slice(1) + ' URL'}
+      value={state}
+      onChangeText={(state) => setState(state)}
+      autoCapitalize="none"
+      multiline={false}
+      numberOfLines={1}
+    />
+  </View>
 )
 
 const styles = StyleSheet.create({
@@ -127,4 +149,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { Header, SubHeader, CategoryButton, ContinueButton, FormInput }
+export { Header, SubHeader, CategoryButton, ContinueButton, FormInput, SocialInput }

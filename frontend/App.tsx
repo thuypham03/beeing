@@ -11,9 +11,14 @@ import SignUp from './src/screens/auth/SignUp';
 import BrandSignUp from './src/screens/auth/BrandSignUp';
 import InfluencerSignUp from './src/screens/auth/InfluencerSignUp';
 
+import { UserWithId } from '../common/db-types';
+import { UserContext } from './src/utils/userContext';
+
 const Stack = createStackNavigator();
 
 const App = () => {  
+  const [user, setUser] = useState<UserWithId | null>(null);
+
   const [fontsLoaded] = useFonts({
     'rimouski': require('./src/assets/rimouski.otf'), 
     'karla': require('./src/assets/karla.ttf'), 
@@ -25,6 +30,7 @@ const App = () => {
   }
 
   return (
+    <UserContext.Provider value={{user, setUser}}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name='Sign In' component={SignIn}/>
@@ -36,6 +42,7 @@ const App = () => {
           <Stack.Screen name='Brand' component={BrandScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
+      </UserContext.Provider>
   );
 };
 

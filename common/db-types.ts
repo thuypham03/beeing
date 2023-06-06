@@ -3,17 +3,27 @@ type Id = {
 };
 
 // Login types
-export type User = {
+export type UserType = {
   readonly type: 'BRAND' | 'INFLUENCER';
+}
+
+export type Address = {
+  readonly street?: string | null;
+  readonly apartment?: string | null;
+  readonly city?: string | null;
+  readonly zip?: number | null;
+  readonly state?: string | null;
+  readonly country?: string | null;
 }
 
 export type BasicInfo = {
   readonly avatar?: string | null;
-  readonly address?: string | null;
+  readonly address?: Address | null;
   readonly phone?: string | null;
   readonly email?: string | null;
   readonly website?: string | null;
-  readonly photos?: readonly string[]; // can be empty
+  readonly photos?: string[]; // can be empty
+  readonly socialMedia?: SocialMedia;
 }
 
 export type SocialMedia = {
@@ -39,7 +49,7 @@ export type Influencer = {
   readonly gender?: string;
 }
 
-export type UserWithId = User & Id & BasicInfo & SocialMedia & Brand & Influencer;
+export type UserWithId = Id & UserType & BasicInfo & Brand & Influencer;
 
 // Rating types
 export type DetailedRating = {

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, StyleSheet, Alert, Text, ImageBackground, TouchableOpacity, Image} from 'react-native';
 import { Header, SubHeader, CategoryButton, ContinueButton, FormInput } from '../../components/Auth/SignUpComponents'
 import { registration, uploadImage } from '../../utils/firebase';
 import { pickImage } from '../../utils/selectPhoto';
 import { Entypo } from '@expo/vector-icons';
-import api from '../../utils/axios';
+import { UserContext } from '../../utils/userContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,6 +25,8 @@ const styles = StyleSheet.create({
 });
 
 const SignUp = ({ navigation }) => {
+  const { user, setUser } = useContext(UserContext);
+
   const [stage, setStage] = useState<string>('Choose User Type');
   const [userType, setUserType] = useState<string | null>(null);
   const [email, setEmail] = useState<string>('');
@@ -37,13 +39,15 @@ const SignUp = ({ navigation }) => {
 
   useEffect(() => {
     const createNewUser = async () => {
-      const newUser = {
-        id: userId,
-        type: userType.toUpperCase(),
-        email: email,
-        avatar: uploadedAvatar
-      };
-      await api.post('/new-user', newUser);
+      if (userType !== null) {
+        const newUser = {
+          id: userId,
+          type: userType.toUpperCase(),
+          email: email,
+          avatar: uploadedAvatar
+        };
+        setUser(newUser);
+      }
     };
     createNewUser();
   }, [isFinish, uploadedAvatar]);
@@ -71,9 +75,10 @@ const SignUp = ({ navigation }) => {
       if (email === '' || password === '' || confirmPassword === '') Alert.alert('Please fill out the form.')
       else if (password !== confirmPassword) Alert.alert('Password does not match.')
       else {
-        registration(email, password).then((uid) => {
-          if (uid !== null) { setStage('Middle'); setUserId(uid); }
-        })
+        // registration(email, password).then((uid) => {
+        //   if (uid !== null) { setStage('Middle'); setUserId(uid); }
+        // });
+        setStage('Middle'); setUserId("123");
       }
     } 
     return(
